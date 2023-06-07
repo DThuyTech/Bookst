@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeCotroller{
     @GetMapping
     public String home(){
-        return "home/index";
+        return "book/list";
     }
 }

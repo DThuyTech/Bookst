@@ -6,10 +6,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import com.example.book.validator.annotation.ValidCategoryId;
-
+import com.example.book.validator.annotation.ValiUserId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-
+import lombok.Data;
+@Data
 @Entity
 @Table(name = "book")
 public class Book {
@@ -29,7 +30,10 @@ public class Book {
     @JoinColumn(name = "category_id")
     @ValidCategoryId
     private Category category;
-
+    @ManyToOne
+    @JoinColumn(name ="user_id",referencedColumnName = "id")
+    @ValiUserId
+    private user user;
     
     public Long getId() {
         return id;

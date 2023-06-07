@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -53,5 +54,30 @@ public class BookController {
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("title", "Add Book");
         return "book/add";
+    }
+    @GetMapping("/edit/{id}")
+    public String editBookForm(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("title", "Edit Book");
+        model.addAttribute("categories", categoryService.getAllCategories());
+        Book editBook = bookService.getBookById(id);
+        if (editBook != null) {
+            model.addAttribute("book", editBook);
+            return "book/edit";
+
+        } else {
+            return "not-found";
+        }
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editBook(@PathVariable("id") Long id, @ModelAttribute("book") Book book) {
+        bookService.updateBook(book);
+        return "redirect:/books";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteBook(@PathVariable("id") Long id) {
+        bookService.deleteBook(id);
+        return "redirect:/books";
     }
 }
